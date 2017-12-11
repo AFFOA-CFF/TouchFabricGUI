@@ -13,7 +13,7 @@ float margin, headerHeight, rectsHeight, barsHeight, graphHeight;
 
 int rgb[][] = {
   { 200, 55, 110 }, //0: left axis
-  { 20, 85, 140 } }; //1: right axis
+  {  20, 85, 140 } }; //1: right axis
 color bg = color(242);
 color light = color(245, 195, 215); //light pressure
 color dark = color(200, 55, 110); //heavy pressure 
@@ -23,8 +23,10 @@ color subtitleBG = color(20, 85, 140);
 color subtitle = color(255);
 color rectsFill = color(230, 245, 255);
 
-int numRects = 12; // number of sensor rectangles
-float[][] rects = new float[numRects][4]; // coordinates for each rect
+int numRects = 16; // number of sensor rectangles
+int maxRects = 40; // max number of sensor rectangles
+int rectInc = 2; // sensitivity increment
+float[][] rects = new float[maxRects][4]; // coordinates for each rect
 
 
 float[][] readings = new float[4][2000]; // all readings
@@ -36,7 +38,7 @@ float[][] readings = new float[4][2000]; // all readings
 float[][] plot = new float[2][2000]; // scaled left-right readings
 
 float time[] = new float[2000];
-float startingLine = 0.8; // how far across the screen the current data point is drawn
+float startingLine = 0.9; // how far across the screen the current data point is drawn
 
 volatile int vIdx = 1300;
 int idx = 1300;
@@ -47,6 +49,11 @@ boolean console = false;
 boolean mousePause = false;
 boolean mouseReset = false;
 boolean mouseConsole = false;
+
+float sensitivity[][] = { { 20.0, 40.0 }, { 15.0, 20.0 }, {10.0, 15.0 } };
+int sidx = 0; // Sensitivity index
+float pLower = sensitivity[sidx][0]; // Default to first lower pressure sensitivity
+float pUpper = sensitivity[sidx][1]; // Default to first upper pressure sensitivity
 
 int inc = 30; // arrow increment
 
@@ -356,23 +363,26 @@ void touchLocation() {
   stroke(stroke);
   rect(margin, offset + margin*1.25, mainWidth, rectsHeight);
 
-  float x = margin + mainWidth / 36.0; // x position
+  float pWidth = 0.7; // percentage of the width of each segment
+  float pHeight = 1.0; //
+  
+  float x = margin + (mainWidth/(2.0*numRects))*(1.0 - pWidth); // x position
   float y = offset + margin*1.25; // y position
-  float w = mainWidth / 36.0; // rectangle width
+  float w = pWidth*mainWidth/numRects; // rectangle width
   float h = rectsHeight; // rectangle height
 
   stroke(stroke);
   strokeWeight(1);
   fill(rectsFill);
   //draw rectangles numbered numRects to 0 (j) and store their coordinates in the rects[j][] array
-  for (int j = numRects-1; j > -1; j--) {
+  for (int j = numRects-1; j >= 0; j--) {
     rect(x, y, w, h);
     rects[j][0] = x;
     rects[j][1] = y;
     rects[j][2] = w;
     rects[j][3] = h;
 
-    x += w * 3.0;
+    x += mainWidth/numRects;
   }//end for
 
   float[] temp = new float[2];
@@ -423,9 +433,24 @@ void updateLocation(float n, float p) {
   index = round(map(n, 0, 1, 0, numRects-1)); //map n to nearest rectangle index (0-11)
 
   //upper & lower pressure threshold for coloring the rectangles
-  if (p > lowerThreshold && p < upperThreshold) fill(light);
-  else if (p >= upperThreshold) fill(dark);
-  else fill(rectsFill);
+  //if (p > lowerThreshold && p < upperThreshold) fill(light);
+  //else if (p >= upperThreshold) fill(dark);
+  //else fill(rectsFill);
+  
+  int Sscale = 255;
+  
+  //float pLower = 20.0;
+  //float pUpper = 60.0;
+  
+  int s = (int)(Sscale * (p - pLower) / (pUpper - pLower));
+  if (s < 0) {
+      s = 0;
+  }else if (s > Sscale) {
+      s = Sscale;
+  }
+  
+  fill(color(255, 0, 0, s));
+  
 
   //use index to pull coordinates from corresponding rects[][] array to fill in the correct rectangle
   float x = rects[index][0];
@@ -556,7 +581,7 @@ void drawButtons()
   if (running) image(pause, frameWidth-margin*5.2, height-margin*1.6, margin, margin);
   else image(play, frameWidth-margin*5.2, height-margin*1.6, margin, margin);
 
-  tint(255, 190);  
+  tint(255, 190);
   if (mouseReset) tint(255, 100);
   image(reset, frameWidth-margin*3.7, height-margin*1.6, margin, margin);
 
@@ -569,24 +594,43 @@ void drawButtons()
   noTint();
 }
 
+void changeSensitivity()
+{
+  sidx++;
+  if (sidx >= sensitivity.length)
+  {
+    sidx = 0;
+  }
+  pLower = sensitivity[sidx][0];
+  pUpper = sensitivity[sidx][1];
+}
+
 void keyPressed()
 {
   if (key == CODED)
   {
-    if (keyCode == LEFT)
-    {
+    if (keyCode == LEFT) {
       vIdx += inc;
       if (vIdx > time.length - inc)
       {
         vIdx = time.length - inc;
       }
-    } else if (keyCode == RIGHT)
-    {
+    } else if (keyCode == RIGHT) {
       vIdx -= inc;
       if (vIdx < inc)
       {
         vIdx = inc;
       }
+    } else if (keyCode == UP) {
+        numRects += rectInc;
+        if (numRects > maxRects) {
+            numRects = maxRects;
+        }
+    } else if (keyCode == DOWN) {
+        numRects -= rectInc;
+        if (numRects < rectInc) {
+            numRects = rectInc;
+        }
     }
   } else if (key == ' ')
   {
@@ -597,7 +641,11 @@ void keyPressed()
   } else if (key == 'd')
   {
     console = !console;
+  } else if (key == 's')
+  {
+    changeSensitivity();
   }
+  
 }//end keyPressed
 
 void mousePressed()
