@@ -1,5 +1,8 @@
 import processing.serial.*;
 import javax.swing.*; //for serial port prompt
+import java.awt.Robot; 
+import java.awt.event.KeyEvent;
+import java.awt.AWTException;
 
 boolean setup = true;
 // toggle prompt for choosing serial port
@@ -49,6 +52,7 @@ boolean console = false;
 boolean mousePause = false;
 boolean mouseReset = false;
 boolean mouseConsole = false;
+boolean keysActive = false;
 
 float sensitivity[][] = { { 20.0, 40.0 }, { 15.0, 20.0 }, {10.0, 15.0 } };
 int sidx = 0; // Sensitivity index
@@ -426,11 +430,16 @@ void updateLocation(float n, float p) {
   int index;
   float lowerThreshold = 30.0;
   float upperThreshold = 40.0;
+  float keyThreshold = 35.0;
   //for touch location-
   //pale color fills in when avg pressure is at lower threshold;
   //darker color fills past upper threshold
 
   index = round(map(n, 0, 1, 0, numRects-1)); //map n to nearest rectangle index (0-11)
+  if ((p > keyThreshold) & keysActive)
+  {
+    triggerKeys(index);
+  }
 
   //upper & lower pressure threshold for coloring the rectangles
   //if (p > lowerThreshold && p < upperThreshold) fill(light);
@@ -459,6 +468,65 @@ void updateLocation(float n, float p) {
   float h = rects[index][3];
   rect(x, y, w, h);
 }//end updateLocation
+
+void triggerKeys(int index)
+{
+  try{
+    Robot robot = new Robot();
+    switch(index){
+    case 0:
+      robot.keyPress(KeyEvent.VK_0);
+      robot.keyRelease(KeyEvent.VK_0);
+      break;
+    case 1:
+      robot.keyPress(KeyEvent.VK_1);
+      robot.keyRelease(KeyEvent.VK_1);
+      break;
+    case 2:
+      robot.keyPress(KeyEvent.VK_2);
+      robot.keyRelease(KeyEvent.VK_2);
+      break;
+    case 3:
+      robot.keyPress(KeyEvent.VK_3);
+      robot.keyRelease(KeyEvent.VK_3);
+      break;
+    case 4:
+      robot.keyPress(KeyEvent.VK_4);
+      robot.keyRelease(KeyEvent.VK_4);
+      break;
+    case 5:
+      robot.keyPress(KeyEvent.VK_5);
+      robot.keyRelease(KeyEvent.VK_5);
+      break;
+    case 6:
+      robot.keyPress(KeyEvent.VK_6);
+      robot.keyRelease(KeyEvent.VK_6);
+      break;
+    case 7:
+      robot.keyPress(KeyEvent.VK_7);
+      robot.keyRelease(KeyEvent.VK_7);
+      break;
+    case 8:
+      robot.keyPress(KeyEvent.VK_8);
+      robot.keyRelease(KeyEvent.VK_8);
+      break;
+    case 9:
+      robot.keyPress(KeyEvent.VK_9);
+      robot.keyRelease(KeyEvent.VK_9);
+      break;
+    case 10:
+      robot.keyPress(KeyEvent.VK_X);
+      robot.keyRelease(KeyEvent.VK_X);
+      break;
+    case 11:
+      robot.keyPress(KeyEvent.VK_I);
+      robot.keyRelease(KeyEvent.VK_I);
+      break;
+    }
+  } catch (AWTException e) {
+    e.printStackTrace();
+  }
+}
 
 void console()
 {
@@ -644,6 +712,9 @@ void keyPressed()
   } else if (key == 's')
   {
     changeSensitivity();
+  } else if (key == 'k')
+  {
+    keysActive = !keysActive;
   }
   
 }//end keyPressed
