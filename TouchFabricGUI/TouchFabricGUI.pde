@@ -1,8 +1,5 @@
 import processing.serial.*;
 import javax.swing.*; //for serial port prompt
-import java.awt.Robot; 
-import java.awt.event.KeyEvent;
-import java.awt.AWTException;
 
 boolean setup = true;
 // toggle prompt for choosing serial port
@@ -16,7 +13,8 @@ float margin, headerHeight, rectsHeight, barsHeight, graphHeight;
 
 int rgb[][] = {
   { 200, 55, 110 }, //0: left axis
-  {  20, 85, 140 } }; //1: right axis
+  {  20, 85, 140 }
+}; //1: right axis
 color bg = color(242);
 color light = color(245, 195, 215); //light pressure
 color dark = color(200, 55, 110); //heavy pressure 
@@ -26,10 +24,10 @@ color subtitleBG = color(20, 85, 140);
 color subtitle = color(255);
 color rectsFill = color(230, 245, 255);
 
-int numRects = 16; // number of sensor rectangles
-int maxRects = 40; // max number of sensor rectangles
-int rectInc = 2; // sensitivity increment
-float[][] rects = new float[maxRects][4]; // coordinates for each rect
+int numColumns = 8; // number of sensor rectangles
+int maxColumns = 40; // max number of sensor rectangles
+int columnInc = 2; // sensitivity increment
+float[][] rects = new float[maxColumns][4]; // coordinates for each rect
 
 
 float[][] readings = new float[4][2000]; // all readings
@@ -41,7 +39,7 @@ float[][] readings = new float[4][2000]; // all readings
 float[][] plot = new float[2][2000]; // scaled left-right readings
 
 float time[] = new float[2000];
-float startingLine = 0.9; // how far across the screen the current data point is drawn
+float startingLine = 0.95; // how far across the screen the current data point is drawn
 
 volatile int vIdx = 1300;
 int idx = 1300;
@@ -52,12 +50,6 @@ boolean console = false;
 boolean mousePause = false;
 boolean mouseReset = false;
 boolean mouseConsole = false;
-boolean keysActive = false;
-
-float sensitivity[][] = { { 20.0, 40.0 }, { 15.0, 20.0 }, {10.0, 15.0 } };
-int sidx = 0; // Sensitivity index
-float pLower = sensitivity[sidx][0]; // Default to first lower pressure sensitivity
-float pUpper = sensitivity[sidx][1]; // Default to first upper pressure sensitivity
 
 int inc = 30; // arrow increment
 
@@ -69,9 +61,18 @@ int subFontSize = 14; //
 float mainWidth, frameWidth;
 
 //also adjust default values in reset() function
-float maxLeft = 45.0;
-float maxRight = 45.0;
 float max = 45.0;
+float maxLeft = max;
+float maxRight = max;
+
+String delim = " ";
+
+XML config;
+
+float[] redTrim = new float[2];  // Sensitivity box trim of the red signal
+float[] blueTrim = new float[2]; // Sensitivity box trim of the blue signal
+float[] sensitivity = new float[2]; // Pressure sensitivity
+float[] nRange = new float[2];      // Position range
 
 void setup() {
 
@@ -79,6 +80,27 @@ void setup() {
   size(850, 650);
   surface.setResizable(true); // allow the canvas to be resized
   pixelDensity(displayDensity()); // renders hq if retina display
+
+  config = loadXML("config.xml");
+  
+  XML redTrimChild = config.getChild("redTrim");
+  redTrim[0] = redTrimChild.getFloat("min");
+  redTrim[1] = redTrimChild.getFloat("max");
+  
+  XML blueTrimChild = config.getChild("blueTrim");
+  blueTrim[0] = blueTrimChild.getFloat("min");
+  blueTrim[1] = blueTrimChild.getFloat("max");
+  
+  XML numColumnsChild = config.getChild("numColumns");
+  numColumns = numColumnsChild.getInt("val");
+  
+  XML sensitivityChild = config.getChild("sensitivity");
+  sensitivity[0] = sensitivityChild.getFloat("min");
+  sensitivity[1] = sensitivityChild.getFloat("max");
+
+  XML nRangeChild = config.getChild("nRange");
+  nRange[0] = nRangeChild.getFloat("min");
+  nRange[1] = nRangeChild.getFloat("max");
 
   background(bg);
   logo = loadImage("logo.png");
@@ -90,54 +112,40 @@ void setup() {
   font = loadFont("Helvetica-16.vlw");
   fontBold = loadFont("Helvetica-Bold-30.vlw");
 
-
   println((Object)Serial.list()); //print available serial ports to console
 
+  try {
+    Object selection;
+    String port = "";
+    int i = Serial.list().length;
 
-  if (!setup) {
-    //if setup is turned off, default to using this port
-    myPort = new Serial(this, "/dev/cu.usbmodem1421", 115200);
+    if (i > 0) {
+      //if there are multiple ports available, ask which one to use
+      selection = JOptionPane.showInputDialog(frame, "Select serial port number to use:\n", "Setup", JOptionPane.PLAIN_MESSAGE, null, Serial.list(), Serial.list()[0]);
+      if (selection == null) exit();
 
-    myPort.clear(); // throw out the first reading, in case we started reading in the middle of a string from the sender
-    myString = myPort.readStringUntil(lf);
-    myString = null;
-    xScale();
-    yScale();
-  } else
-  {
-    try {
-      Object selection;
-      String port = "";
-      int i = Serial.list().length;
+      println(selection);
+      port = selection.toString();
+      println(port);
+      myPort = new Serial(this, port, 115200);
 
-      if (i > 0) {
-        //if there are multiple ports available, ask which one to use
-        selection = JOptionPane.showInputDialog(frame, "Select serial port number to use:\n", "Setup", JOptionPane.PLAIN_MESSAGE, null, Serial.list(), Serial.list()[0]);
-        if (selection == null) exit();
-
-        println(selection);
-        port = selection.toString();
-        println(port);
-        myPort = new Serial(this, port, 115200);
-
-        myPort.clear(); // throw out the first reading, in case we started reading in the middle of a string from the sender
-        myString = myPort.readStringUntil(lf);
-        myString = null;
-        xScale();
-        yScale();
-        //println(time);
-      } else {
-        JOptionPane.showMessageDialog(frame, "Device is not connected to the PC");
-        exit();
-      }
-    }
-    catch (Exception e)
-    { //Print the type of error
-      JOptionPane.showMessageDialog(frame, "COM port is not available (may\nbe in use by another program)");
-      println("Error:", e);
+      myPort.clear(); // throw out the first reading, in case we started reading in the middle of a string from the sender
+      myString = myPort.readStringUntil(lf);
+      myString = null;
+      xScale();
+      yScale();
+      //println(time);
+    } else {
+      JOptionPane.showMessageDialog(frame, "Device is not connected to the PC");
       exit();
     }
-  }//end if(showSetup)
+  }
+  catch (Exception e)
+  { //Print the type of error
+    JOptionPane.showMessageDialog(frame, "COM port is not available (may\nbe in use by another program)");
+    println("Error:", e);
+    exit();
+  }
 }//end setup
 
 
@@ -162,17 +170,16 @@ void draw() {
     myString = myPort.readStringUntil(lf);
   }
   if (myString != null) {
-    data = float(split(myString, ' ')); //split raw data into 2 numbers
+    data = float(split(myString, delim)); //split raw data into 2 numbers
     println(data);
 
-    if (data[0] > maxLeft) maxLeft = data[0];
-    if (data[1] > maxRight) maxRight = data[1];
-    if (maxLeft > maxRight) max = maxLeft;
-    else max = maxRight;
+    maxLeft = (data[0] > maxLeft)? data[0] : maxLeft;
+    maxRight = (data[1] > maxRight)? data[1] : maxRight;
+    max = (maxLeft > maxRight)? maxLeft : maxRight;
+
     //update max reading values as you go
 
-    if (running)
-    {
+    if (running) {
       readings[0][readings[0].length-1] = (-1) * data[0];
       readings[1][readings[1].length-1] = (-1) * data[1];
 
@@ -181,12 +188,10 @@ void draw() {
       plot[1][plot[1].length-1] = map(readings[1][readings[1].length-1], 0, max, 0, graphHeight);
 
 
-      for (int j = 0; j < 2; j++)
-      {
-        for (int i = idx; i < time.length - 1; i++)
-        {
-          readings[j][i] = readings[j][i + 1]; // Shift the readings to the left so can put the newest reading in
-          plot[j][i] = plot[j][i + 1];
+      for (int j = 0; j < 2; j++) {
+        for (int i = idx; i < time.length-1; i++) {
+          readings[j][i] = readings[j][i+1]; // Shift the readings to the left so can put the newest reading in
+          plot[j][i] = plot[j][i+1];
         }
       }
     }//end if(running)
@@ -194,11 +199,11 @@ void draw() {
 
   background(bg);
 
-  if (width < 540 || height < 400) {  
-    headFontSize = 14; 
+  if (width < 540 || height < 400) {
+    headFontSize = 14;
     subFontSize = 10;
   } else { 
-    headFontSize = 28; 
+    headFontSize = 28;
     subFontSize = 14;
   }
 
@@ -252,6 +257,16 @@ void sensitivityBars()
 
   fill(rgb[1][0], rgb[1][1], rgb[1][2]);
   rect(frameWidth/2.0, center, wRight, margin*2.5);
+
+
+  // draw sensitivity range boxes
+  fill(255, 0, 0, 127);
+  rect(frameWidth/2.0-map(redTrim[1], 0, max, 0, (mainWidth/2.0 - margin/4.0)), center-(margin*.1), map(redTrim[1]-redTrim[0], 0, max, 0, (mainWidth/2.0 - margin/4.0)), margin*2.7);
+
+  fill(0, 0, 255, 127);
+  rect(frameWidth/2.0+map(blueTrim[0], 0, max, 0, (mainWidth/2.0 - margin/4.0)), center-(margin*.1), map(blueTrim[1]-blueTrim[0], 0, max, 0, (mainWidth/2.0 - margin/4.0)), margin*2.7);
+
+
 
 
   //current value
@@ -370,27 +385,30 @@ void touchLocation() {
   float pWidth = 0.7; // percentage of the width of each segment
   float pHeight = 1.0; //
   
-  float x = margin + (mainWidth/(2.0*numRects))*(1.0 - pWidth); // x position
+  float x = margin + (mainWidth/(2.0*numColumns))*(1.0 - pWidth); // x position
   float y = offset + margin*1.25; // y position
-  float w = pWidth*mainWidth/numRects; // rectangle width
+  float w = pWidth*mainWidth/numColumns; // rectangle width
   float h = rectsHeight; // rectangle height
 
   stroke(stroke);
   strokeWeight(1);
   fill(rectsFill);
-  //draw rectangles numbered numRects to 0 (j) and store their coordinates in the rects[j][] array
-  for (int j = numRects-1; j >= 0; j--) {
+  //draw rectangles numbered numColumns to 0 (j) and store their coordinates in the rects[j][] array
+  for (int j = numColumns-1; j >= 0; j--) {
     rect(x, y, w, h);
     rects[j][0] = x;
     rects[j][1] = y;
     rects[j][2] = w;
     rects[j][3] = h;
 
-    x += mainWidth/numRects;
+    x += mainWidth/numColumns;
   }//end for
 
   float[] temp = new float[2];
-  temp = positionPressure((-1)*readings[0][readings[0].length-1], (-1)*readings[1][readings[1].length-1]);
+  temp = positionPressure((-1)*readings[0][readings[0].length-1]-redTrim[0], (-1)*readings[1][readings[1].length-1]-blueTrim[0]);
+  println((-1)*readings[0][readings[0].length-1]-redTrim[0]);
+  println((-1)*readings[1][readings[1].length-1]-blueTrim[0]);
+  println(temp);
   updateLocation(temp[0], temp[1]);
 }//end touchLocation
 
@@ -402,13 +420,16 @@ float nMax = 1.0;
 
 float[] positionPressure(float r1, float r2)
 {
-  float n = log(r1) / log(r2);
-  if (n < nMin) nMin = n;
-  else if (n > nMax) nMax = n;
+  float rl = (r1 < 1.0)? 1.0 : r1;
+  float rr = (r2 < 1.0)? 1.0 : r2;
+
+  float n = log(rl) - log(rr);
+  nMin = (n < nMin)? n : nMin;
+  nMax = (n > nMax)? n : nMax;
   //update max/min n-value with each calculation
 
   float nNormal = map(n, nMin, nMax, 0, 1); //map n-value to standard 0-1 scale for easy analysis
-  float p = (r1 + r2) / 2.0; //avg pressure between left/right
+  float p = (r1 + r2) / 2.0 - 17.0; //avg pressure between left/right
 
   if (running) {
     readings[2][readings[2].length-1] = n;
@@ -428,18 +449,15 @@ float[] positionPressure(float r1, float r2)
 
 void updateLocation(float n, float p) {
   int index;
-  float lowerThreshold = 30.0;
-  float upperThreshold = 40.0;
-  float keyThreshold = 35.0;
+  float lowerThreshold = 10.0;
+  float upperThreshold = 20.0;
   //for touch location-
   //pale color fills in when avg pressure is at lower threshold;
   //darker color fills past upper threshold
 
-  index = round(map(n, 0, 1, 0, numRects-1)); //map n to nearest rectangle index (0-11)
-  if ((p > keyThreshold) & keysActive)
-  {
-    triggerKeys(index);
-  }
+  index = round(map(n, nRange[0], nRange[1], 0, numColumns-1)); //map n to nearest rectangle index (0-11)
+  index = (index < 0)? 0 : index;
+  index = (index > numColumns-1)? numColumns : index;
 
   //upper & lower pressure threshold for coloring the rectangles
   //if (p > lowerThreshold && p < upperThreshold) fill(light);
@@ -448,16 +466,9 @@ void updateLocation(float n, float p) {
   
   int Sscale = 255;
   
-  //float pLower = 20.0;
-  //float pUpper = 60.0;
-  
-  int s = (int)(Sscale * (p - pLower) / (pUpper - pLower));
-  if (s < 0) {
-      s = 0;
-  }else if (s > Sscale) {
-      s = Sscale;
-  }
-  
+  int s = round(map((redTrim[0] + blueTrim[0])/2 + p, sensitivity[0], sensitivity[1], 0, Sscale));
+  s = (s < 0)? 0 : s;
+  s = (s > Sscale)? Sscale : s;
   fill(color(255, 0, 0, s));
   
 
@@ -468,65 +479,6 @@ void updateLocation(float n, float p) {
   float h = rects[index][3];
   rect(x, y, w, h);
 }//end updateLocation
-
-void triggerKeys(int index)
-{
-  try{
-    Robot robot = new Robot();
-    switch(index){
-    case 0:
-      robot.keyPress(KeyEvent.VK_0);
-      robot.keyRelease(KeyEvent.VK_0);
-      break;
-    case 1:
-      robot.keyPress(KeyEvent.VK_1);
-      robot.keyRelease(KeyEvent.VK_1);
-      break;
-    case 2:
-      robot.keyPress(KeyEvent.VK_2);
-      robot.keyRelease(KeyEvent.VK_2);
-      break;
-    case 3:
-      robot.keyPress(KeyEvent.VK_3);
-      robot.keyRelease(KeyEvent.VK_3);
-      break;
-    case 4:
-      robot.keyPress(KeyEvent.VK_4);
-      robot.keyRelease(KeyEvent.VK_4);
-      break;
-    case 5:
-      robot.keyPress(KeyEvent.VK_5);
-      robot.keyRelease(KeyEvent.VK_5);
-      break;
-    case 6:
-      robot.keyPress(KeyEvent.VK_6);
-      robot.keyRelease(KeyEvent.VK_6);
-      break;
-    case 7:
-      robot.keyPress(KeyEvent.VK_7);
-      robot.keyRelease(KeyEvent.VK_7);
-      break;
-    case 8:
-      robot.keyPress(KeyEvent.VK_8);
-      robot.keyRelease(KeyEvent.VK_8);
-      break;
-    case 9:
-      robot.keyPress(KeyEvent.VK_9);
-      robot.keyRelease(KeyEvent.VK_9);
-      break;
-    case 10:
-      robot.keyPress(KeyEvent.VK_X);
-      robot.keyRelease(KeyEvent.VK_X);
-      break;
-    case 11:
-      robot.keyPress(KeyEvent.VK_I);
-      robot.keyRelease(KeyEvent.VK_I);
-      break;
-    }
-  } catch (AWTException e) {
-    e.printStackTrace();
-  }
-}
 
 void console()
 {
@@ -662,17 +614,6 @@ void drawButtons()
   noTint();
 }
 
-void changeSensitivity()
-{
-  sidx++;
-  if (sidx >= sensitivity.length)
-  {
-    sidx = 0;
-  }
-  pLower = sensitivity[sidx][0];
-  pUpper = sensitivity[sidx][1];
-}
-
 void keyPressed()
 {
   if (key == CODED)
@@ -690,14 +631,14 @@ void keyPressed()
         vIdx = inc;
       }
     } else if (keyCode == UP) {
-        numRects += rectInc;
-        if (numRects > maxRects) {
-            numRects = maxRects;
+        numColumns += columnInc;
+        if (numColumns > maxColumns) {
+            numColumns = maxColumns;
         }
     } else if (keyCode == DOWN) {
-        numRects -= rectInc;
-        if (numRects < rectInc) {
-            numRects = rectInc;
+        numColumns -= columnInc;
+        if (numColumns < columnInc) {
+            numColumns = columnInc;
         }
     }
   } else if (key == ' ')
@@ -709,14 +650,7 @@ void keyPressed()
   } else if (key == 'd')
   {
     console = !console;
-  } else if (key == 's')
-  {
-    changeSensitivity();
-  } else if (key == 'k')
-  {
-    keysActive = !keysActive;
   }
-  
 }//end keyPressed
 
 void mousePressed()
