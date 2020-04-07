@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="70d9acd5-9824-422f-8c22-a589049dcea8" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1a0GNd28iKYDIm7ljIkWSLEEBlw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.21909231" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.CFF.Main" />
+      <module name="TouchFabricGUI1.1" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="70d9acd5-9824-422f-8c22-a589049dcea8" name="Default Changelist" comment="" />
+      <created>1585865058805</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585865058805</updated>
+      <workItem from="1585865062429" duration="714000" />
+      <workItem from="1586218266423" duration="10000" />
+      <workItem from="1586264667394" duration="7842000" />
+      <workItem from="1586278721072" duration="1548000" />
+      <workItem from="1586292999470" duration="46000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="369" y="160" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586293044055">
+      <screen x="0" y="23" width="1440" height="829" />
+    </state>
+    <state x="369" y="160" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.829@0.23.1440.829" timestamp="1586293044055" />
+    <state x="849" y="189" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1586274355778" />
+    <state x="842" y="267" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586293042047">
+      <screen x="0" y="23" width="1440" height="829" />
+    </state>
+    <state x="842" y="267" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1440.829@0.23.1440.829" timestamp="1586293042047" />
+    <state x="1122" y="319" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1586274354638" />
+    <state width="395" height="466" key="DebuggerActiveHint" timestamp="1586276811082">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state width="395" height="466" key="DebuggerActiveHint/0.23.1920.1006@0.23.1920.1006" timestamp="1586276811082" />
+    <state width="1398" height="79" key="GridCell.Tab.0.bottom" timestamp="1586293045654">
+      <screen x="0" y="23" width="1440" height="829" />
+    </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1586293045654" />
+    <state width="918" height="377" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613710" />
+    <state width="1398" height="79" key="GridCell.Tab.0.center" timestamp="1586293045653">
+      <screen x="0" y="23" width="1440" height="829" />
+    </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1586293045653" />
+    <state width="918" height="377" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613710" />
+    <state width="1398" height="79" key="GridCell.Tab.0.left" timestamp="1586293045653">
+      <screen x="0" y="23" width="1440" height="829" />
+    </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1586293045653" />
+    <state width="918" height="377" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613709" />
+    <state width="1398" height="79" key="GridCell.Tab.0.right" timestamp="1586293045654">
+      <screen x="0" y="23" width="1440" height="829" />
+    </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1586293045654" />
+    <state width="918" height="377" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613710" />
+    <state width="918" height="337" key="GridCell.Tab.1.bottom" timestamp="1586276969387">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state width="918" height="337" key="GridCell.Tab.1.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1586276969387" />
+    <state width="918" height="337" key="GridCell.Tab.1.center" timestamp="1586276969387">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state width="918" height="337" key="GridCell.Tab.1.center/0.23.1920.1006@0.23.1920.1006" timestamp="1586276969387" />
+    <state width="918" height="337" key="GridCell.Tab.1.left" timestamp="1586276969386">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state width="918" height="337" key="GridCell.Tab.1.left/0.23.1920.1006@0.23.1920.1006" timestamp="1586276969386" />
+    <state width="918" height="337" key="GridCell.Tab.1.right" timestamp="1586276969387">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state width="918" height="337" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1586276969387" />
+    <state x="567" y="23" width="1221" height="1005" key="SettingsEditor" timestamp="1586275072374">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state x="567" y="23" width="1221" height="1005" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1586275072374" />
+    <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup" timestamp="1586272184680">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1586272184680" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/CFF/TouchFabricGUI.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/com/CFF/TouchFabricGUI.java</url>
+          <line>175</line>
+          <properties class="com.CFF.TouchFabricGUI" method="draw">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://$PROJECT_DIR$/libs/core.jar!/processing/core/PApplet.class</url>
+          <line>2313</line>
+          <properties class="processing.core.PApplet" method="loadXML">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="simpleUML.UMLToolWindowPlugin">
+    <General>
+      <option name="birdViewUpdateDelay" value="2000" />
+      <option name="defaultFileLocation" value="file://$PROJECT_DIR$/.." />
+    </General>
+    <Classdiagram>
+      <option name="diagramTitleFont" value="SansSerif,1,12" />
+      <option name="diagramFont" value="SansSerif,0,10" />
+      <option name="defaultFieldsExpanded" value="false" />
+      <option name="defaultContructorsExpanded" value="false" />
+      <option name="defaultMethodsExpanded" value="false" />
+      <option name="showParameters" value="true" />
+      <option name="showTooltip" value="true" />
+      <option name="showReturnValues" value="true" />
+      <option name="longModifier" value="true" />
+      <option name="implementsBehaviour" value="1" />
+      <option name="extendsBehaviour" value="1" />
+      <option name="compartmentBehaviour" value="1" />
+      <option name="interfaceBackgroundColor" value="-6494306" />
+      <option name="abstractClassBackgroundColor" value="-1580132" />
+      <option name="classBackgroundColor" value="-6508057" />
+      <option name="diagramBackgroundColor" value="-1" />
+      <option name="useAntialiasedConnectors" value="true" />
+      <option name="quickSourceLinkColor" value="-16776961" />
+      <option name="quickDiagramLinkColor" value="-8454144" />
+      <option name="drawDecorations" value="false" />
+      <option name="hideFieldList" value="" />
+      <option name="showFieldList" value="" />
+      <option name="hideConstructorList" value="" />
+      <option name="showConstructorList" value="" />
+      <option name="hideMethodList" value="" />
+      <option name="showMethodList" value="" />
+      <option name="minimumFigureSize" value="0,0" />
+    </Classdiagram>
+    <Dependencydiagram>
+      <option name="diagramTitleFont" value="SansSerif,1,12" />
+      <option name="diagramFont" value="SansSerif,0,10" />
+      <option name="diagramBackgroundColor" value="-1" />
+      <option name="useAntialiasedConnectors" value="true" />
+      <option name="packageNameCompressionLevel" value="0" />
+    </Dependencydiagram>
+    <Packagediagram>
+      <option name="diagramTitleFont" value="SansSerif,0,12" />
+      <option name="diagramFont" value="SansSerif,0,10" />
+      <option name="packageBackgroundColor" value="-4144960" />
+      <option name="diagramBackgroundColor" value="-1" />
+      <option name="useAntialiasedConnectors" value="true" />
+      <option name="packageNameCompressionLevel" value="2" />
+    </Packagediagram>
+  </component>
+</project>
