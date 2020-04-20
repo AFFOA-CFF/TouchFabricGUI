@@ -29,13 +29,14 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.21909231" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/libs" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -81,7 +82,12 @@
       <workItem from="1586218266423" duration="10000" />
       <workItem from="1586264667394" duration="7842000" />
       <workItem from="1586278721072" duration="1548000" />
-      <workItem from="1586292999470" duration="46000" />
+      <workItem from="1586292999470" duration="596000" />
+      <workItem from="1586525147942" duration="12000" />
+      <workItem from="1586806091602" duration="7002000" />
+      <workItem from="1586917774149" duration="1783000" />
+      <workItem from="1587054532876" duration="262000" />
+      <workItem from="1587419300189" duration="2808000" />
     </task>
     <servers />
   </component>
@@ -103,26 +109,30 @@
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state width="395" height="466" key="DebuggerActiveHint/0.23.1920.1006@0.23.1920.1006" timestamp="1586276811082" />
-    <state width="1398" height="79" key="GridCell.Tab.0.bottom" timestamp="1586293045654">
-      <screen x="0" y="23" width="1440" height="829" />
+    <state width="1878" height="16" key="GridCell.Tab.0.bottom" timestamp="1586880555355">
+      <screen x="0" y="23" width="1920" height="1006" />
     </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1586314335580" />
     <state width="1398" height="79" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1586293045654" />
-    <state width="918" height="377" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613710" />
-    <state width="1398" height="79" key="GridCell.Tab.0.center" timestamp="1586293045653">
-      <screen x="0" y="23" width="1440" height="829" />
+    <state width="1878" height="16" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1586880555355" />
+    <state width="1878" height="16" key="GridCell.Tab.0.center" timestamp="1586880555354">
+      <screen x="0" y="23" width="1920" height="1006" />
     </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1586314335579" />
     <state width="1398" height="79" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1586293045653" />
-    <state width="918" height="377" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613710" />
-    <state width="1398" height="79" key="GridCell.Tab.0.left" timestamp="1586293045653">
-      <screen x="0" y="23" width="1440" height="829" />
+    <state width="1878" height="16" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1586880555354" />
+    <state width="1878" height="16" key="GridCell.Tab.0.left" timestamp="1586880555354">
+      <screen x="0" y="23" width="1920" height="1006" />
     </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1586314335579" />
     <state width="1398" height="79" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1586293045653" />
-    <state width="918" height="377" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613709" />
-    <state width="1398" height="79" key="GridCell.Tab.0.right" timestamp="1586293045654">
-      <screen x="0" y="23" width="1440" height="829" />
+    <state width="1878" height="16" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1586880555354" />
+    <state width="1878" height="16" key="GridCell.Tab.0.right" timestamp="1586880555355">
+      <screen x="0" y="23" width="1920" height="1006" />
     </state>
+    <state width="1398" height="79" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1586314335580" />
     <state width="1398" height="79" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1586293045654" />
-    <state width="918" height="377" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1586277613710" />
+    <state width="1878" height="16" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1586880555355" />
     <state width="918" height="337" key="GridCell.Tab.1.bottom" timestamp="1586276969387">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
@@ -139,10 +149,10 @@
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state width="918" height="337" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1586276969387" />
-    <state x="567" y="23" width="1221" height="1005" key="SettingsEditor" timestamp="1586275072374">
+    <state x="567" y="23" width="1221" height="1005" key="SettingsEditor" timestamp="1586959602862">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state x="567" y="23" width="1221" height="1005" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1586275072374" />
+    <state x="567" y="23" width="1221" height="1005" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1586959602862" />
     <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup" timestamp="1586272184680">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
@@ -153,12 +163,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/CFF/TouchFabricGUI.java</url>
-          <line>135</line>
+          <line>120</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/com/CFF/TouchFabricGUI.java</url>
-          <line>175</line>
+          <line>173</line>
           <properties class="com.CFF.TouchFabricGUI" method="draw">
             <option name="EMULATED" value="true" />
           </properties>

@@ -1,31 +1,18 @@
 package com.CFF;
 
+import com.google.gson.Gson;
 import processing.core.*;
-import processing.data.*;
-import processing.event.*;
-import processing.opengl.*;
 import processing.serial.*;
 import javax.swing.*;
-
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-
 import jssc.SerialPortList;
 import processing.data.XML;
 
+import java.io.FileReader;
+import java.io.IOException;
+
 public class TouchFabricGUI extends PApplet {
 
-
-    //for serial port prompt
-
-    boolean setup = true;
-// toggle prompt for choosing serial port
+    boolean setup = true; // toggle prompt for choosing serial port
 
     int lf = 10;  // linefeed in ASCII
     String myString = null; //raw serial data
@@ -39,8 +26,6 @@ public class TouchFabricGUI extends PApplet {
             {  20, 85, 140 }
     }; //1: right axis
     int bg = color(242);
-    int light = color(245, 195, 215); //light pressure
-    int dark = color(200, 55, 110); //heavy pressure
     int header = color(255); //header text
     int stroke = color(190);
     int subtitleBG = color(20, 85, 140);
@@ -170,6 +155,19 @@ public class TouchFabricGUI extends PApplet {
             exit();
         }
     }//end setup
+
+    public Object loadConfig(){
+        try{
+            Gson gson = new Gson();
+            Object config = gson.fromJson(new FileReader("config.json"), Object.class);
+            print(config);
+            return config;
+        }
+        catch (IOException ioex){
+            ioex.printStackTrace();
+            return new Object();
+        }
+    }
 
 
 
@@ -441,22 +439,22 @@ public class TouchFabricGUI extends PApplet {
 //you may need to adjust default max/min as necessary
 //also adjust default values in reset() function
 
-    public float[] positionPressure(float r1, float r2)
+    public float[] positionPressure(float red, float blue)
     {
-        float rl = (r1 < 1.0f)? 1.0f : r1;
-        float rr = (r2 < 1.0f)? 1.0f : r2;
+        float rl = (red < 1.0f)? 1.0f : red;
+        float rr = (blue < 1.0f)? 1.0f : blue;
 
         float n = log(rl) - log(rr);
         nMin = (n < nMin)? n : nMin;
         nMax = (n > nMax)? n : nMax;
         //update max/min n-value with each calculation
 
-        float nNormal = map(n, nMin, nMax, 0, 1); //map n-value to standard 0-1 scale for easy analysis
-        float p = (r1 + r2) / 2.0f - 17.0f; //avg pressure between left/right
+        float nLoc = map(n, nMin, nMax, 0, 1); //map n-value to standard 0-1 scale for easy analysis; normalized reading
+        float pressure = (red + blue) / 2.0f - 17.0f; //avg pressure between left/right
 
         if (running) {
             readings[2][readings[2].length-1] = n;
-            readings[3][readings[3].length-1] = nNormal;
+            readings[3][readings[3].length-1] = nLoc;
             //store n and n-normal in readings array
 
             for (int i = idx; i < time.length - 1; i++)
@@ -464,10 +462,10 @@ public class TouchFabricGUI extends PApplet {
                 readings[2][i] = readings[2][i + 1]; // Shift the readings to the left so can put the newest reading in
                 readings[3][i] = readings[3][i + 1];
             }
-        }//end if(running)
+        }
 
-        return new float[] {nNormal, p};
-    }//end positionPressure
+        return new float[] {nLoc, pressure};
+    }
 
 
     public void updateLocation(float n, float p) {
