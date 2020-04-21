@@ -87,7 +87,7 @@
       <workItem from="1586806091602" duration="7002000" />
       <workItem from="1586917774149" duration="1783000" />
       <workItem from="1587054532876" duration="262000" />
-      <workItem from="1587419300189" duration="2808000" />
+      <workItem from="1587419300189" duration="7748000" />
     </task>
     <servers />
   </component>
@@ -153,22 +153,22 @@
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="567" y="23" width="1221" height="1005" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1586959602862" />
-    <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup" timestamp="1586272184680">
+    <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup" timestamp="1587494275437">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1586272184680" />
+    <state x="1105" y="245" width="670" height="676" key="search.everywhere.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1587494275437" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/CFF/TouchFabricGUI.java</url>
-          <line>120</line>
+          <line>123</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/com/CFF/TouchFabricGUI.java</url>
-          <line>173</line>
+          <line>181</line>
           <properties class="com.CFF.TouchFabricGUI" method="draw">
             <option name="EMULATED" value="true" />
           </properties>

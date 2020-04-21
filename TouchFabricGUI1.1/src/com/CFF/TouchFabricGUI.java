@@ -10,7 +10,7 @@ import processing.data.XML;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class TouchFabricGUI extends PApplet {
+public class TouchFabricGUI extends PApplet {//need to have a secondary class extending PApplet to instantiate it, so that it overrides setup(), draw() and other event handlers.
 
     boolean setup = true; // toggle prompt for choosing serial port
 
@@ -82,7 +82,10 @@ public class TouchFabricGUI extends PApplet {
     float[] sensitivity = new float[2]; // Pressure sensitivity
     float[] nRange = new float[2];      // Position range
 
-    //you still need to have a secondary class extending PApplet to instantiate it, so that it overrides setup(), draw() and other event handlers.
+    /**Runs once at the beginning to set up stuff needed like logos, components and other vars
+     * Extending PAPPlet (which we did) needs that we implement this function
+     * */
+
     public void setup() {
 
         //size(displayWidth, displayHeight);
@@ -156,6 +159,9 @@ public class TouchFabricGUI extends PApplet {
         }
     }//end setup
 
+    /**Function doesn't get called currently.
+     * Left in case for a future improvement if we port from XML to JSON
+     * */
     public Object loadConfig(){
         try{
             Gson gson = new Gson();
@@ -169,8 +175,10 @@ public class TouchFabricGUI extends PApplet {
         }
     }
 
-
-
+    /**Once setup is done, draw runs continuously until the program is closed.
+     * Like a while loop
+     * You don't HAVE to use this, if you just want to draw once to the screen
+     * */
     public void draw() {
         //since window is resizable, the height of each element is based on
         //a fraction of the height of the window (using the 'margin' as a base unit).
@@ -246,6 +254,8 @@ public class TouchFabricGUI extends PApplet {
         drawButtons();
     }//end draw
 
+    /**Creates/updates sensitivity bars
+     * */
     public void sensitivityBars()
     {
         float offset = headerHeight + rectsHeight + margin * 3.25f;
@@ -319,6 +329,8 @@ public class TouchFabricGUI extends PApplet {
         arrow(frameWidth/2.0f+margin, offset + barsHeight+margin/2.0f, frameWidth-margin*3.0f, offset + barsHeight + margin/2.0f);
     }//end sensitivity bars
 
+    /**Creates arrows for scale in sensitivity graph
+     * */
     public void arrow(float x1, float y1, float x2, float y2) {
         strokeWeight(1);
         stroke(0);
@@ -332,6 +344,8 @@ public class TouchFabricGUI extends PApplet {
         popMatrix();
     }
 
+    /**Creates/updates sensitivity graph
+     * */
     public void sensitivityGraph() {
         idx = vIdx; // Set the index equal to the volatile index to prevent overwriting during the loop
         running = vRunning; // Set the running flag equal to the volatile running flag
@@ -368,16 +382,20 @@ public class TouchFabricGUI extends PApplet {
 
         textAlign(LEFT);
         strokeWeight(1);
-    }//end sensitivity graph
+    }
 
+    /**Scales app for horizontal resize
+     * */
     public void xScale()
     {
         for (int i = idx; i < time.length; i++)
         {
             time[i] = map(i, idx, time.length-1, margin, startingLine*mainWidth);
         }
-    }//end xScale
+    }
 
+    /**Scales app for vertical resize
+     * */
     public void yScale()
     {
         for (int i = 0; i < time.length; i++)
@@ -385,9 +403,11 @@ public class TouchFabricGUI extends PApplet {
             plot[0][i] = headerHeight + rectsHeight + barsHeight + graphHeight + margin * 4.75f + map(readings[0][i], 0, max, 0, graphHeight-margin/4.0f);
             plot[1][i] = headerHeight + rectsHeight + barsHeight + graphHeight + margin * 4.75f + map(readings[1][i], 0, max, 0, graphHeight-margin/4.0f);
         }
-    }//end yScale
+    }
 
 
+    /**Detects/updates toch location
+     * */
     public void touchLocation() {
         //draw title
         float offset = headerHeight + margin;
@@ -436,9 +456,12 @@ public class TouchFabricGUI extends PApplet {
 
     float nMin = 1.0f;
     float nMax = 1.0f;
-//you may need to adjust default max/min as necessary
-//also adjust default values in reset() function
+    //you may need to adjust default max/min as necessary
+    //also adjust default values in reset() function
 
+
+    /**Calculates position pressure based on R/B value data from the serial
+     * */
     public float[] positionPressure(float red, float blue)
     {
         float rl = (red < 1.0f)? 1.0f : red;
@@ -467,7 +490,8 @@ public class TouchFabricGUI extends PApplet {
         return new float[] {nLoc, pressure};
     }
 
-
+    /** Updates location on GUI
+     * */
     public void updateLocation(float n, float p) {
         int index;
         float lowerThreshold = 10.0f;
@@ -590,8 +614,10 @@ public class TouchFabricGUI extends PApplet {
 
         xScale();
         yScale();
-    }//end reset
+    }
 
+    /**Draws buttons
+     * */
     public void drawButtons()
     {
         if (mouseY > (height-margin*1.6f) && mouseY < (height-margin*0.6f)) {
@@ -635,6 +661,8 @@ public class TouchFabricGUI extends PApplet {
         noTint();
     }
 
+    /**Detects Keyboard entries
+     * */
     public void keyPressed()
     {
         if (key == CODED)
@@ -672,8 +700,10 @@ public class TouchFabricGUI extends PApplet {
         {
             console = !console;
         }
-    }//end keyPressed
+    }
 
+    /**Detects mouse click
+     * */
     public void mousePressed()
     {
         if (mousePause) vRunning = !vRunning;
